@@ -1,0 +1,3000 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/servis/Downloads/dental_sklad_7.html -->
+<html lang="cs"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dental Sklad</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: #dddbd3;
+  --border2: #c8c6bc;
+  --text: #1a1917;
+  --text2: #6b6860;
+  --text3: #9b9990;
+  --accent: #1a4a8a;
+  --accent-light: #e8eef7;
+  --accent-text: #1a4a8a;
+  --warn: #9a4a00;
+  --warn-light: #fff3e6;
+  --ok: #1a6b3a;
+  --ok-light: #e6f4ec;
+  --danger: #8a1a1a;
+  --danger-light: #f7e8e8;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --radius: 6px;
+  --radius-lg: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+/* TOP NAV */
+.nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; align-items: center; gap: 12px; height: 52px; position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; white-space: nowrap; }
+.nav-logo span { color: var(--accent); }
+.nav-tabs { display: flex; gap: 2px; margin-left: auto; }
+.nav-tab { padding: 6px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 400; cursor: pointer; color: var(--text2); background: transparent; border: none; transition: all 0.15s; white-space: nowrap; }
+.nav-tab.active { background: var(--accent); color: #fff; font-weight: 500; }
+.nav-user { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: var(--accent-light); color: var(--accent-text); border: 1px solid var(--border); font-family: var(--mono); white-space: nowrap; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.nav-user select { background: none; border: none; color: var(--accent-text); font-family: var(--mono); font-size: 12px; cursor: pointer; outline: none; }
+
+/* MAIN */
+.main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; }
+.stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.stat-val { font-family: var(--mono); font-size: 22px; font-weight: 500; }
+.stat-val.warn { color: var(--warn); }
+.stat-val.ok { color: var(--ok); }
+
+/* TOOLBAR */
+.toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
+.search { width: 100%; padding: 8px 12px 8px 34px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-family: var(--sans); font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; }
+.search:focus { border-color: var(--accent); }
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--border2); color: var(--text); background: var(--surface); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.chip.active { background: #1a4a8a; color: #ffffff; border-color: #1a4a8a; font-weight: 600; letter-spacing: 0.01em; }
+.chip:hover:not(.active) { border-color: #1a4a8a; color: #1a4a8a; background: #e8eef7; }
+
+/* TABLE */
+.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+thead th { padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); background: var(--surface2); border-bottom: 1px solid var(--border); white-space: nowrap; }
+tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--surface2); }
+.part-num { font-family: var(--mono); font-size: 11px; color: var(--text2); }
+.part-desc { font-size: 13px; font-weight: 500; }
+.part-brand { font-size: 11px; color: var(--text3); }
+
+/* BADGE */
+.badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+.b-rot { background: #fce4ec; color: #880e4f; }
+.b-fil { background: #e8f5e9; color: #1b5e20; }
+.b-had { background: #e3f2fd; color: #0d47a1; }
+.b-ser { background: #e0f7fa; color: #006064; }
+.b-ele { background: #fff9c4; color: #7b6000; }
+.b-tес { background: #f3e5f5; color: #4a148c; }
+.b-spo { background: #fff3e0; color: #bf360c; }
+.b-pri { background: #f1f8e9; color: #33691e; }
+.b-ost { background: #f5f5f5; color: #555; }
+
+/* QTY */
+.qty-ctrl { display: flex; align-items: center; gap: 6px; }
+.qty-btn { width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); font-size: 16px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); transition: all 0.1s; user-select: none; font-weight: 300; }
+.qty-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.qty-btn.minus:hover { border-color: #c0392b; color: #c0392b; background: #fdf0f0; }
+.qty-num { font-family: var(--mono); font-size: 14px; font-weight: 500; min-width: 28px; text-align: center; }
+.qty-num.low { color: var(--warn); }
+.qty-num.critical { color: var(--danger); }
+
+/* MIN STOCK */
+.min-col { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+.min-col.warn { color: var(--warn); font-weight: 500; }
+
+/* MODAL */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); width: 100%; max-width: 420px; overflow: hidden; }
+.modal-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-weight: 600; font-size: 14px; }
+.modal-close { cursor: pointer; color: var(--text3); font-size: 20px; line-height: 1; background: none; border: none; padding: 0; }
+.modal-body { padding: 16px; }
+.modal-part-info { background: var(--surface2); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 14px; }
+.modal-part-info .pn { font-family: var(--mono); font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+.modal-part-info .pd { font-size: 13px; font-weight: 500; }
+.form-row { margin-bottom: 12px; }
+.form-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; font-weight: 500; }
+.form-input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-family: var(--sans); font-size: 13px; color: var(--text); outline: none; }
+.form-input:focus { border-color: var(--accent); }
+.form-select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-family: var(--sans); font-size: 13px; color: var(--text); outline: none; cursor: pointer; }
+.modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+.btn { padding: 8px 18px; border-radius: var(--radius); font-family: var(--sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; border: 1px solid var(--border); background: var(--surface2); color: var(--text); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: #153d73; }
+.btn-danger { background: var(--danger-light); color: var(--danger); border-color: #e8c0c0; }
+.btn-danger:hover { background: #f0d0d0; }
+
+/* HISTORY */
+.history-type { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+.ht-in { background: var(--ok-light); color: var(--ok); }
+.ht-out { background: var(--warn-light); color: var(--warn); }
+.history-device { font-size: 12px; color: var(--text2); }
+.history-tech { font-size: 12px; font-family: var(--mono); color: var(--text3); }
+
+/* EMPTY */
+.empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 13px; }
+
+
+/* LOGIN */
+.login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.login-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 28px; width: 100%; max-width: 340px; }
+.login-logo { font-family: var(--mono); font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+.login-logo span { color: var(--accent); }
+.login-sub { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+.login-form-row { margin-bottom: 14px; }
+.login-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 4px; }
+.login-input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 14px; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s; }
+.login-input:focus { border-color: var(--accent); }
+.login-btn { width: 100%; padding: 10px; border-radius: var(--radius); border: none; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 6px; transition: background 0.15s; }
+.login-btn:hover { background: #153d73; }
+.login-error { font-size: 12px; color: var(--danger); margin-top: 8px; min-height: 16px; }
+
+/* SYNC STATUS */
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border2); display: inline-block; margin-right: 5px; }
+.sync-dot.ok { background: var(--ok); }
+.sync-dot.err { background: var(--danger); }
+.sync-dot.spin { background: #e6a800; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.sync-btn { font-size: 12px; padding: 4px 10px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface2); color: var(--text2); cursor: pointer; font-family: var(--sans); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.sync-btn:hover { border-color: var(--accent); color: var(--accent); }
+.offline-banner { background: var(--warn-light); border-bottom: 1px solid #f0c080; padding: 7px 16px; font-size: 12px; color: var(--warn); display: flex; align-items: center; gap: 8px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--text); color: #fff; padding: 10px 18px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .nav-logo { font-size: 12px; }
+  .col-loc, .col-min { display: none; }
+  .nav-user select { max-width: 80px; }
+}
+@media (max-width: 480px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat-val { font-size: 18px; }
+  .main { padding: 10px; }
+  .col-cat { display: none; }
+  .filter-row { display: none; }
+  .chip-toggle { display: flex; }
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">⬡ Dental<span>Sklad</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab(&#39;katalog&#39;)">Katalog</button>
+    <button class="nav-tab" onclick="showTab(&#39;historie&#39;)">Historie</button>
+  </div>
+  <div class="nav-user" style="display: none;">
+    👤 <select id="user-select">
+      <option>Pavel</option>
+      <option>Martin</option>
+    </select>
+  </div>
+  <button class="sync-btn" onclick="showApiSetup()" title="Nastavit / Synchronizovat s Google Sheets">
+    <span class="sync-dot err" id="sync-dot"></span><span id="sync-label">Chyba</span>
+  </button>
+</nav>
+<div class="offline-banner hidden" id="offline-banner">
+  ⚠️ Pracuješ offline – změny se ukládají lokálně. Po nastavení API URL se data synchronizují s Google Sheets.
+  <a href="file:///C:/Users/servis/Downloads/dental_sklad_7.html#" onclick="showApiSetup()" style="color:var(--warn);font-weight:600;margin-left:8px">Nastavit →</a>
+</div>
+
+<div class="main">
+
+  <!-- STATS -->
+  <div class="stats" id="stats-bar">
+    <div class="stat"><div class="stat-label">Celkem položek</div><div class="stat-val" id="s-total">134</div></div>
+    <div class="stat"><div class="stat-label">Pod minimem</div><div class="stat-val warn" id="s-low">32</div></div>
+    <div class="stat"><div class="stat-label">Výdeje (měsíc)</div><div class="stat-val" id="s-out">3</div></div>
+    <div class="stat"><div class="stat-label">Příjmy (měsíc)</div><div class="stat-val ok" id="s-in">2</div></div>
+  </div>
+
+  <!-- KATALOG TAB -->
+  <div id="tab-katalog">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        <input class="search" id="search" placeholder="Hledat díl, číslo, popis…" oninput="filterTable()">
+      </div>
+      <div class="filter-row" id="brand-filters"><div class="chip active" onclick="setBrand(&#39;Vše&#39;)">Všechny značky</div><div class="chip" onclick="setBrand(&#39;BA&#39;)">BA</div><div class="chip" onclick="setBrand(&#39;CAT&#39;)">CAT</div><div class="chip" onclick="setBrand(&#39;DIPL&#39;)">DIPL</div><div class="chip" onclick="setBrand(&#39;DURR&#39;)">DURR</div><div class="chip" onclick="setBrand(&#39;EKM&#39;)">EKM</div><div class="chip" onclick="setBrand(&#39;FAR&#39;)">FAR</div><div class="chip" onclick="setBrand(&#39;GEN&#39;)">GEN</div><div class="chip" onclick="setBrand(&#39;HSD&#39;)">HSD</div><div class="chip" onclick="setBrand(&#39;KAV&#39;)">KAV</div><div class="chip" onclick="setBrand(&#39;LUZ&#39;)">LUZ</div><div class="chip" onclick="setBrand(&#39;MEL&#39;)">MEL</div><div class="chip" onclick="setBrand(&#39;MTS&#39;)">MTS</div><div class="chip" onclick="setBrand(&#39;OMS&#39;)">OMS</div><div class="chip" onclick="setBrand(&#39;WAS&#39;)">WAS</div><div class="chip" onclick="setBrand(&#39;WDP&#39;)">WDP</div></div>
+    </div>
+    <div class="filter-row" id="cat-filters" style="margin-bottom:12px;gap:6px;display:flex;flex-wrap:wrap;"><div class="chip active" onclick="setCat(&#39;Vše&#39;)">Všechny kategorie</div><div class="chip" onclick="setCat(&#39;Rotační / pohyblivé díly&#39;)">Rotační / pohyblivé díly</div><div class="chip" onclick="setCat(&#39;Filtry&#39;)">Filtry</div><div class="chip" onclick="setCat(&#39;Hadice a ventily&#39;)">Hadice a ventily</div><div class="chip" onclick="setCat(&#39;Servisní sady&#39;)">Servisní sady</div><div class="chip" onclick="setCat(&#39;Elektro / elektronika&#39;)">Elektro / elektronika</div><div class="chip" onclick="setCat(&#39;Těsnění a gumy&#39;)">Těsnění a gumy</div><div class="chip" onclick="setCat(&#39;Spotřební / chemie&#39;)">Spotřební / chemie</div><div class="chip" onclick="setCat(&#39;Spotřební / sterilizace&#39;)">Spotřební / sterilizace</div><div class="chip" onclick="setCat(&#39;Nástroje / instrumenty&#39;)">Nástroje / instrumenty</div><div class="chip" onclick="setCat(&#39;Příslušenství / plasty&#39;)">Příslušenství / plasty</div><div class="chip" onclick="setCat(&#39;Spojovací díly&#39;)">Spojovací díly</div><div class="chip" onclick="setCat(&#39;Ostatní&#39;)">Ostatní</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Díl / Popis</th>
+            <th class="col-cat">Kategorie</th>
+            <th class="col-loc">Umístění</th>
+            <th style="min-width:110px">Množství</th>
+            <th class="col-min">Min.</th>
+          </tr>
+        </thead>
+        <tbody id="parts-body"><tr>
+      <td>
+        <div class="part-num">BA 0113528</div>
+        <div class="part-desc">O kroužek intra</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,1)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,1)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 1502219-001</div>
+        <div class="part-desc">Repair set MM MC2 complet</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,2)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,2)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 1502219-005</div>
+        <div class="part-desc">Repair set MM MC2 small</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,3)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,3)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 1502223-001</div>
+        <div class="part-desc">Repair set CA 1:5 L</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,4)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,4)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 1600036</div>
+        <div class="part-desc">Spray net 500</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,5)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,5)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 1600064</div>
+        <div class="part-desc">Lubrifluid</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,6)">−</div>
+          <div class="qty-num">6</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,6)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 2012956</div>
+        <div class="part-desc">V kroužek MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,7)">−</div>
+          <div class="qty-num">8</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,7)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 2114506</div>
+        <div class="part-desc">Uhlík MM MC2 / MC3</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,8)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,8)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 6520202</div>
+        <div class="part-desc">Kolík zajišťovací</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,9)">−</div>
+          <div class="qty-num">10</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,9)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 6588457</div>
+        <div class="part-desc">Žárovka MM BA MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,10)">−</div>
+          <div class="qty-num low">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,10)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 7010114</div>
+        <div class="part-desc">Ložisko přední MM MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,11)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,11)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 7010123</div>
+        <div class="part-desc">Ložisko zadní MM MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,12)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,12)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA 8987594</div>
+        <div class="part-desc">LED žárovka MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,13)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,13)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA B1 STDMG 1</div>
+        <div class="part-desc">Hadice turbíny světelná šedá</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,14)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,14)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA B2.STD.MG.1</div>
+        <div class="part-desc">Hadice MM Bien Air MC2 světelná šedá</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,15)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,15)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">BA LK40IR</div>
+        <div class="part-desc">Mikromotor Bien Air MC2</div>
+        <div class="part-brand">Bien Air</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,16)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,16)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040804</div>
+        <div class="part-desc">Hadice odsávání CAT malá komplet</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,17)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,17)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040869</div>
+        <div class="part-desc">Hadice odsávání V</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,18)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,18)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040904</div>
+        <div class="part-desc">Hadice odsávání M</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,19)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,19)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040940</div>
+        <div class="part-desc">Hadice odpadní točená 20mm</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,20)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,20)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040941</div>
+        <div class="part-desc">Hadice sání točená 25mm</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,21)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,21)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 040969</div>
+        <div class="part-desc">Hadice odsávání CAT velká komplet</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,22)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,22)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 168 563</div>
+        <div class="part-desc">Filtr vstupní komp. CATTANI</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,23)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,23)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 463 050</div>
+        <div class="part-desc">Filtr chir. sání černý</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,24)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,24)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">CAT 2062742</div>
+        <div class="part-desc">Adaptér sání 6/11</div>
+        <div class="part-brand">Cattani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ost">Spojovací díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,25)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,25)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DIPL 10050011</div>
+        <div class="part-desc">Hadice MM DX Blue</div>
+        <div class="part-brand">Diplomat</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,26)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,26)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DURR 072504160</div>
+        <div class="part-desc">Filtr chir. sání</div>
+        <div class="part-brand">Dürr</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,27)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,27)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DURR 7117-033-00</div>
+        <div class="part-desc">Náhradní nádobka DURR CAS-1</div>
+        <div class="part-brand">Dürr</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,28)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,28)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DURR 7117-980-30</div>
+        <div class="part-desc">Service kit 5Y</div>
+        <div class="part-brand">Dürr</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,29)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,29)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DURR 7128-100-03</div>
+        <div class="part-desc">Klapka zpětná VSA 600/900/1200</div>
+        <div class="part-brand">Dürr</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,30)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,30)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">DURR 7805-033-00</div>
+        <div class="part-desc">Náhradní nádoba CA 4</div>
+        <div class="part-brand">Dürr</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,31)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,31)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">EKM 025100055-009</div>
+        <div class="part-desc">EKOM vstupní filtr starý</div>
+        <div class="part-brand">EKOM</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,32)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,32)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">EKM 025200126-000</div>
+        <div class="part-desc">EKOM vstupní filtr nový 1V</div>
+        <div class="part-brand">EKOM</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,33)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,33)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">EKM 025200139-000</div>
+        <div class="part-desc">EKOM vstupní filtr nový 2V</div>
+        <div class="part-brand">EKOM</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,34)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,34)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">EKM 025200304-000</div>
+        <div class="part-desc">EKOM filtr Omega</div>
+        <div class="part-brand">EKOM</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,35)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,35)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">FAR 276131</div>
+        <div class="part-desc">Žárovka EDI</div>
+        <div class="part-brand">Faro</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-10</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,36)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,36)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">FAR 386 457</div>
+        <div class="part-desc">Ventilátor EDI</div>
+        <div class="part-brand">Faro</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-10</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,37)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,37)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">FAR 528004</div>
+        <div class="part-desc">Žárovka Forma</div>
+        <div class="part-brand">Faro</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-10</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,38)">−</div>
+          <div class="qty-num low">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,38)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN 002</div>
+        <div class="part-desc">Filtrační sada malá</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,39)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,39)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN 003</div>
+        <div class="part-desc">Filtrační sada velká</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,40)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,40)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN 10052</div>
+        <div class="part-desc">Filtrační komplet 2 fáze</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,41)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,41)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN 10053</div>
+        <div class="part-desc">Filtrační komplet 3 fáze</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,42)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,42)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN FCCB KDF</div>
+        <div class="part-desc">Filtr KDF</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,43)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,43)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN FCPP1</div>
+        <div class="part-desc">Filtr 1 mikron</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,44)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,44)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">GEN FCPS 5 AG</div>
+        <div class="part-desc">Filtrační vložka bio AG</div>
+        <div class="part-brand">Universal</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,45)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,45)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">HSD 9001570</div>
+        <div class="part-desc">Olej MAXIMA</div>
+        <div class="part-brand">HSD</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-11</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,46)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,46)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.200.6120</div>
+        <div class="part-desc">O kroužek intra KaVo</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,47)">−</div>
+          <div class="qty-num">10</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,47)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.211.1751</div>
+        <div class="part-desc">Koncovka malé savky komplet</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,48)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,48)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.211.1761</div>
+        <div class="part-desc">Koncovka velké savky komplet</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,49)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,49)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.238.1051</div>
+        <div class="part-desc">Filtr vodní E50 / 1058</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,50)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,50)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.524.1421</div>
+        <div class="part-desc">Kleština komplet 10lh,ln</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-12</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,51)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,51)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.540.1151</div>
+        <div class="part-desc">Mezikus 68</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-12</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,52)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,52)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.540.3661</div>
+        <div class="part-desc">Náboj hlavičky 68</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-12</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,53)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,53)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.553.7201</div>
+        <div class="part-desc">Mezikus 25lh / 1</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,54)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,54)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.553.7251</div>
+        <div class="part-desc">Mezikus 25lh / 2</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,55)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,55)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.553.7341</div>
+        <div class="part-desc">Náboj 25 LH / LHC</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,56)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,56)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.553.7501</div>
+        <div class="part-desc">Hlavička 25 LHC</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,57)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,57)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.658.2160</div>
+        <div class="part-desc">Filtr sání Smart air 5ks</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,58)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,58)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.763.9661</div>
+        <div class="part-desc">Hadice odsávání sada V+M</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,59)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,59)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.764.5633</div>
+        <div class="part-desc">Gumové ukončení malé savky</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,60)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,60)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.764.8541</div>
+        <div class="part-desc">TUMBLER FILLER</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-4</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,61)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,61)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.773.0051</div>
+        <div class="part-desc">Tlačítko stříkačky KaVo</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,62)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,62)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 0.773.0231</div>
+        <div class="part-desc">Tryska stříkačky</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,63)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,63)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.000.2078</div>
+        <div class="part-desc">Rotor 655/660</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-14</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,64)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,64)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.000.4772</div>
+        <div class="part-desc">Rotor 7000</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-14</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,65)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,65)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.000.7206</div>
+        <div class="part-desc">Dekaseptol dávkovač</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-15</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,66)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,66)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.001.5845</div>
+        <div class="part-desc">Potah plastový ochrana</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,67)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,67)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.002.0271</div>
+        <div class="part-desc">Filtr kolínko / turbína</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,68)">−</div>
+          <div class="qty-num">6</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,68)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.003.6884</div>
+        <div class="part-desc">Rotor 8000</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-14</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,69)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,69)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.004.2776</div>
+        <div class="part-desc">O kroužky spojky KaVo</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,70)">−</div>
+          <div class="qty-num">12</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,70)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.3995</div>
+        <div class="part-desc">Handpiece PiezoLED</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,71)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,71)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.4002</div>
+        <div class="part-desc">Hadice PiezoLED</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,72)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,72)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.4024</div>
+        <div class="part-desc">Špička UOZK č.201</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,73)">−</div>
+          <div class="qty-num low">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,73)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.4026</div>
+        <div class="part-desc">Špička UOZK č.202</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,74)">−</div>
+          <div class="qty-num low">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,74)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.4028</div>
+        <div class="part-desc">Špička UOZK č.203</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,75)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,75)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.8149</div>
+        <div class="part-desc">Hadice MM KaVo 701/702/703</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,76)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,76)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.007.9313</div>
+        <div class="part-desc">Rotor 680</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-14</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,77)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,77)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.008.1959</div>
+        <div class="part-desc">Pružina biče E50</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,78)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,78)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.008.4040</div>
+        <div class="part-desc">Náboj E25L</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-15</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,79)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,79)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.008.4163</div>
+        <div class="part-desc">Rotor 609/619</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-14</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,80)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,80)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.010.7974</div>
+        <div class="part-desc">KaVo E50/1058 servisní sada 2letá</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,81)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,81)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.010.8043</div>
+        <div class="part-desc">UNIQUA sada 2 roky</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,82)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,82)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.011.5720</div>
+        <div class="part-desc">Olej QUATTROcare</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-11</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,83)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,83)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.013.5155</div>
+        <div class="part-desc">Hadice odsávání malá</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,84)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,84)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.013.5158</div>
+        <div class="part-desc">Hadice odsávání velká</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,85)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,85)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.013.6513</div>
+        <div class="part-desc">Potah plastový křesla</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,86)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,86)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 1.014.5557</div>
+        <div class="part-desc">Mezikus E25</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-rot">Rotační / pohyblivé díly</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,87)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,87)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 3.001.0715</div>
+        <div class="part-desc">Silentblok Smart Air</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,88)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,88)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 3.001.1277</div>
+        <div class="part-desc">Příruba gumová Smart Air</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,89)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,89)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 3.004.7171</div>
+        <div class="part-desc">Hadice odsávání KaVo malá komplet</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,90)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,90)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV 3.004.7180</div>
+        <div class="part-desc">Hadice odsávání KaVo velká komplet</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,91)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,91)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">KAV1.007.4021</div>
+        <div class="part-desc">Světlovod UOZK Piezon</div>
+        <div class="part-brand">KaVo</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-7</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,92)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,92)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">LUZ 483</div>
+        <div class="part-desc">Tryska Luzzani</div>
+        <div class="part-brand">Luzzani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-5</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,93)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,93)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">LUZ SL3GGASG</div>
+        <div class="part-desc">Stříkačka MINILIGHT 3F</div>
+        <div class="part-brand">Luzzani</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,94)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,94)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 01080</div>
+        <div class="part-desc">MELAcontrol 250</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / sterilizace</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">E-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,95)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,95)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 116 30</div>
+        <div class="part-desc">MEtherm 51</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / sterilizace</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">E-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,96)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,96)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 201 60</div>
+        <div class="part-desc">Filtr BIO</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,97)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,97)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 517 61</div>
+        <div class="part-desc">Repasní sada pro vývěvu 24/30 B stará</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,98)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,98)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 517 71</div>
+        <div class="part-desc">Repasní sada pro vývěvu 24/30 B nová</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,99)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,99)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 585 12</div>
+        <div class="part-desc">Těsnění dveří Melag</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,100)">−</div>
+          <div class="qty-num">6</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,100)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 591 73</div>
+        <div class="part-desc">Kavitační ventil pro vývěvu</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-8</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,101)">−</div>
+          <div class="qty-num low">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,101)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MEL 610 26</div>
+        <div class="part-desc">Iontoměnič Meladem</div>
+        <div class="part-brand">Melag</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / sterilizace</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">E-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,102)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,102)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MTS 045 262</div>
+        <div class="part-desc">Membrána MTS 1</div>
+        <div class="part-brand">MTS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,103)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,103)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MTS 55020001</div>
+        <div class="part-desc">MTS náhradní nádobka MST-1</div>
+        <div class="part-brand">MTS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-2</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,104)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,104)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">MTS 600 100</div>
+        <div class="part-desc">Green Clean M2</div>
+        <div class="part-brand">MTS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-spo">Spotřební / chemie</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-11</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,105)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,105)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 210 513</div>
+        <div class="part-desc">Hadice tlaková vzduch 6mm</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,106)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,106)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 210 514</div>
+        <div class="part-desc">Hadice tlaková vodní 8mm</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,107)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,107)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 351 220</div>
+        <div class="part-desc">Potah plastový křesla ARC</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-6</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,108)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,108)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 360 611</div>
+        <div class="part-desc">Pružina biče</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,109)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,109)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 811</div>
+        <div class="part-desc">Filtr bronzový vodní pro regulátor</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-fil">Filtry</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">C-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,110)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,110)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 421 010</div>
+        <div class="part-desc">Regulační ventil vody</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-had">Hadice a ventily</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">B-10</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,111)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,111)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 421 216</div>
+        <div class="part-desc">Ventil solenoidový OMS</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-16</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,112)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,112)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 433 216</div>
+        <div class="part-desc">Pohon opěradla</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-16</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,113)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,113)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 710</div>
+        <div class="part-desc">Kabel 10 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,114)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,114)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 712</div>
+        <div class="part-desc">Kabel 12 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,115)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,115)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 714</div>
+        <div class="part-desc">Kabel 14 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,116)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,116)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 716</div>
+        <div class="part-desc">Kabel 16 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,117)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,117)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 718</div>
+        <div class="part-desc">Kabel 18 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,118)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,118)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 434 720</div>
+        <div class="part-desc">Kabel 20 x 0,25</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,119)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,119)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 437 211</div>
+        <div class="part-desc">Kolečko STAR</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-10</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,120)">−</div>
+          <div class="qty-num">5</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,120)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">3</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 463 093</div>
+        <div class="part-desc">Držák malé savky</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,121)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,121)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 463 094</div>
+        <div class="part-desc">Držák velké savky</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-3</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,122)">−</div>
+          <div class="qty-num">4</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,122)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 463500</div>
+        <div class="part-desc">Hříbek do plivátka</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Příslušenství / plasty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-11</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,123)">−</div>
+          <div class="qty-num">6</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,123)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">4</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 500 979</div>
+        <div class="part-desc">Kondenzátor motoru křesla ARC</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-16</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,124)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,124)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 501 001</div>
+        <div class="part-desc">Kabelový svazek nožního ovladače</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ele">Elektro / elektronika</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-17</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,125)">−</div>
+          <div class="qty-num low">1</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,125)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col warn">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">WAS 168024</div>
+        <div class="part-desc">Corundum DISC HSS 88</div>
+        <div class="part-brand">W&amp;H</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-12</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,126)">−</div>
+          <div class="qty-num">3</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,126)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">2</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">WDP UDS N3</div>
+        <div class="part-desc">Kit UOZK kompletní N3</div>
+        <div class="part-brand">W&amp;H Dental</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,127)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,127)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">WDP UDS N6</div>
+        <div class="part-desc">Kit UOZK kompletní N6</div>
+        <div class="part-brand">W&amp;H Dental</div>
+      </td>
+      <td class="col-cat"><span class="badge b-ser">Servisní sady</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-9</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,128)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,128)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">WDP 31.16.20.048</div>
+        <div class="part-desc">Hlavička – tryska pískovače AO-1</div>
+        <div class="part-brand">W&amp;H Dental</div>
+      </td>
+      <td class="col-cat"><span class="badge b-pri">Nástroje / instrumenty</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">D-13</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,129)">−</div>
+          <div class="qty-num">2</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,129)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">1</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 539</div>
+        <div class="part-desc">O kroužek 5x7x1 – propojovací váleček větší</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,130)">−</div>
+          <div class="qty-num">15</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,130)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">8</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 515</div>
+        <div class="part-desc">O kroužek 3x1 – propojovací váleček menší</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,131)">−</div>
+          <div class="qty-num">15</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,131)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">8</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 513</div>
+        <div class="part-desc">O kroužek 6x1 – pod šroubení výstupu</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,132)">−</div>
+          <div class="qty-num">10</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,132)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 502</div>
+        <div class="part-desc">O kroužek 2,2x1/6 R00 – do regulace</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,133)">−</div>
+          <div class="qty-num">10</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,133)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr><tr>
+      <td>
+        <div class="part-num">OMS 420 514</div>
+        <div class="part-desc">O kroužek 6x1,5 – pod ventil</div>
+        <div class="part-brand">OMS</div>
+      </td>
+      <td class="col-cat"><span class="badge b-tес">Těsnění a gumy</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">A-1</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal(&#39;out&#39;,134)">−</div>
+          <div class="qty-num">10</div>
+          <div class="qty-btn" onclick="openModal(&#39;in&#39;,134)">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col">5</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HISTORIE TAB -->
+  <div id="tab-historie" class="hidden">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        <input class="search" id="hist-search" placeholder="Hledat v historii…" oninput="filterHistory()">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Typ</th>
+            <th>Díl</th>
+            <th>Ks</th>
+            <th class="col-loc">Zařízení / Ordinace</th>
+            <th class="col-min">Technik</th>
+          </tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL výdej/příjem -->
+<div class="modal-backdrop hidden" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Výdej dílu</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-part-info">
+        <div class="pn" id="modal-partnum"></div>
+        <div class="pd" id="modal-partdesc"></div>
+      </div>
+      <div class="form-row" id="device-row">
+        <div class="form-label">Použito na zařízení / ordinaci *</div>
+        <input class="form-input" id="modal-device" placeholder="např. Křeslo č.2 – KaVo Unit">
+      </div>
+      <div class="form-row">
+        <div class="form-label">Počet kusů</div>
+        <input class="form-input" id="modal-qty" type="number" min="1" value="1">
+      </div>
+      <div class="form-row">
+        <div class="form-label">Poznámka (volitelné)</div>
+        <input class="form-input" id="modal-note" placeholder="…">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Zrušit</button>
+      <button class="btn btn-primary" id="modal-confirm" onclick="confirmModal()">Potvrdit</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Chyba sync: Script error</div>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">⬡ Dental<span>Sklad</span></div>
+    <div class="login-sub">Přihlaste se pro přístup ke skladu</div>
+    <div class="login-form-row">
+      <div class="login-label">Jméno</div>
+      <input class="login-input" id="login-name" placeholder="Uživatelské jméno" autocomplete="username">
+    </div>
+    <div class="login-form-row">
+      <div class="login-label">Heslo</div>
+      <input class="login-input" type="password" id="login-pass" placeholder="••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Přihlásit se</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- API SETUP MODAL -->
+<div class="modal-backdrop hidden" id="api-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nastavení Google Sheets API</div>
+      <button class="modal-close" onclick="document.getElementById(&#39;api-modal&#39;).classList.add(&#39;hidden&#39;)">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">
+        Vlož URL nasazené Google Apps Script Web App.<br>
+        Postup: <strong>Google Sheet → Rozšíření → Apps Script → Deploy → New deployment → Web App</strong>
+      </div>
+      <div class="form-row">
+        <div class="form-label">Apps Script Web App URL</div>
+        <input class="form-input" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="document.getElementById(&#39;api-modal&#39;).classList.add(&#39;hidden&#39;)">Zrušit</button>
+      <button class="btn btn-primary" onclick="saveApiUrl()">Uložit a synchronizovat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BRANDS = {
+  BA:'Bien Air',CAT:'Cattani',DIPL:'Diplomat',DURR:'Dürr',EKM:'EKOM',
+  FAR:'Faro',GEN:'Universal',HSD:'HSD',KAV:'KaVo',LUZ:'Luzzani',
+  MEL:'Melag',MTS:'MTS',OMS:'OMS',WAS:'W&H',WDP:'W&H Dental'
+};
+const CAT_BADGE = {
+  'Rotační / pohyblivé díly':'b-rot','Filtry':'b-fil','Hadice a ventily':'b-had',
+  'Servisní sady':'b-ser','Elektro / elektronika':'b-ele','Těsnění a gumy':'b-tес',
+  'Spotřební / chemie':'b-spo','Spotřební / sterilizace':'b-spo',
+  'Nástroje / instrumenty':'b-pri','Příslušenství / plasty':'b-pri',
+  'Spojovací díly':'b-ost','Ostatní':'b-ost'
+};
+
+let parts = [
+  {id:1,num:'BA 0113528',desc:'O kroužek intra',brand:'BA',cat:'Těsnění a gumy',loc:'A-1',qty:5,min:3,note:''},
+  {id:2,num:'BA 1502219-001',desc:'Repair set MM MC2 complet',brand:'BA',cat:'Servisní sady',loc:'A-2',qty:2,min:2,note:''},
+  {id:3,num:'BA 1502219-005',desc:'Repair set MM MC2 small',brand:'BA',cat:'Servisní sady',loc:'A-2',qty:3,min:1,note:''},
+  {id:4,num:'BA 1502223-001',desc:'Repair set CA 1:5 L',brand:'BA',cat:'Servisní sady',loc:'A-3',qty:1,min:2,note:''},
+  {id:5,num:'BA 1600036',desc:'Spray net 500',brand:'BA',cat:'Spotřební / chemie',loc:'A-4',qty:4,min:2,note:''},
+  {id:6,num:'BA 1600064',desc:'Lubrifluid',brand:'BA',cat:'Spotřební / chemie',loc:'A-4',qty:6,min:2,note:''},
+  {id:7,num:'BA 2012956',desc:'V kroužek MC2',brand:'BA',cat:'Těsnění a gumy',loc:'A-1',qty:8,min:5,note:''},
+  {id:8,num:'BA 2114506',desc:'Uhlík MM MC2 / MC3',brand:'BA',cat:'Elektro / elektronika',loc:'A-5',qty:1,min:5,note:''},
+  {id:9,num:'BA 6520202',desc:'Kolík zajišťovací',brand:'BA',cat:'Rotační / pohyblivé díly',loc:'A-6',qty:10,min:5,note:''},
+  {id:10,num:'BA 6588457',desc:'Žárovka MM BA MC2',brand:'BA',cat:'Elektro / elektronika',loc:'A-5',qty:3,min:3,note:''},
+  {id:11,num:'BA 7010114',desc:'Ložisko přední MM MC2',brand:'BA',cat:'Rotační / pohyblivé díly',loc:'A-7',qty:2,min:2,note:''},
+  {id:12,num:'BA 7010123',desc:'Ložisko zadní MM MC2',brand:'BA',cat:'Rotační / pohyblivé díly',loc:'A-7',qty:2,min:2,note:''},
+  {id:13,num:'BA 8987594',desc:'LED žárovka MC2',brand:'BA',cat:'Elektro / elektronika',loc:'A-5',qty:4,min:3,note:''},
+  {id:14,num:'BA B1 STDMG 1',desc:'Hadice turbíny světelná šedá',brand:'BA',cat:'Hadice a ventily',loc:'B-1',qty:2,min:1,note:''},
+  {id:15,num:'BA B2.STD.MG.1',desc:'Hadice MM Bien Air MC2 světelná šedá',brand:'BA',cat:'Hadice a ventily',loc:'B-1',qty:1,min:1,note:''},
+  {id:16,num:'BA LK40IR',desc:'Mikromotor Bien Air MC2',brand:'BA',cat:'Elektro / elektronika',loc:'A-8',qty:1,min:1,note:''},
+  {id:17,num:'CAT 040804',desc:'Hadice odsávání CAT malá komplet',brand:'CAT',cat:'Hadice a ventily',loc:'B-2',qty:3,min:2,note:''},
+  {id:18,num:'CAT 040869',desc:'Hadice odsávání V',brand:'CAT',cat:'Hadice a ventily',loc:'B-2',qty:4,min:2,note:''},
+  {id:19,num:'CAT 040904',desc:'Hadice odsávání M',brand:'CAT',cat:'Hadice a ventily',loc:'B-2',qty:4,min:2,note:''},
+  {id:20,num:'CAT 040940',desc:'Hadice odpadní točená 20mm',brand:'CAT',cat:'Hadice a ventily',loc:'B-3',qty:2,min:1,note:''},
+  {id:21,num:'CAT 040941',desc:'Hadice sání točená 25mm',brand:'CAT',cat:'Hadice a ventily',loc:'B-3',qty:2,min:1,note:''},
+  {id:22,num:'CAT 040969',desc:'Hadice odsávání CAT velká komplet',brand:'CAT',cat:'Hadice a ventily',loc:'B-2',qty:2,min:2,note:''},
+  {id:23,num:'CAT 168 563',desc:'Filtr vstupní komp. CATTANI',brand:'CAT',cat:'Filtry',loc:'C-1',qty:5,min:3,note:''},
+  {id:24,num:'CAT 463 050',desc:'Filtr chir. sání černý',brand:'CAT',cat:'Filtry',loc:'C-1',qty:3,min:2,note:''},
+  {id:25,num:'CAT 2062742',desc:'Adaptér sání 6/11',brand:'CAT',cat:'Spojovací díly',loc:'D-1',qty:2,min:1,note:''},
+  {id:26,num:'DIPL 10050011',desc:'Hadice MM DX Blue',brand:'DIPL',cat:'Hadice a ventily',loc:'B-4',qty:2,min:1,note:''},
+  {id:27,num:'DURR 072504160',desc:'Filtr chir. sání',brand:'DURR',cat:'Filtry',loc:'C-2',qty:4,min:3,note:''},
+  {id:28,num:'DURR 7117-033-00',desc:'Náhradní nádobka DURR CAS-1',brand:'DURR',cat:'Příslušenství / plasty',loc:'D-2',qty:2,min:1,note:''},
+  {id:29,num:'DURR 7117-980-30',desc:'Service kit 5Y',brand:'DURR',cat:'Servisní sady',loc:'A-9',qty:1,min:1,note:''},
+  {id:30,num:'DURR 7128-100-03',desc:'Klapka zpětná VSA 600/900/1200',brand:'DURR',cat:'Hadice a ventily',loc:'B-5',qty:3,min:2,note:''},
+  {id:31,num:'DURR 7805-033-00',desc:'Náhradní nádoba CA 4',brand:'DURR',cat:'Příslušenství / plasty',loc:'D-2',qty:2,min:1,note:''},
+  {id:32,num:'EKM 025100055-009',desc:'EKOM vstupní filtr starý',brand:'EKM',cat:'Filtry',loc:'C-3',qty:3,min:2,note:''},
+  {id:33,num:'EKM 025200126-000',desc:'EKOM vstupní filtr nový 1V',brand:'EKM',cat:'Filtry',loc:'C-3',qty:4,min:2,note:''},
+  {id:34,num:'EKM 025200139-000',desc:'EKOM vstupní filtr nový 2V',brand:'EKM',cat:'Filtry',loc:'C-3',qty:2,min:2,note:''},
+  {id:35,num:'EKM 025200304-000',desc:'EKOM filtr Omega',brand:'EKM',cat:'Filtry',loc:'C-3',qty:3,min:2,note:''},
+  {id:36,num:'FAR 276131',desc:'Žárovka EDI',brand:'FAR',cat:'Elektro / elektronika',loc:'A-10',qty:5,min:3,note:''},
+  {id:37,num:'FAR 386 457',desc:'Ventilátor EDI',brand:'FAR',cat:'Elektro / elektronika',loc:'A-10',qty:2,min:1,note:''},
+  {id:38,num:'FAR 528004',desc:'Žárovka Forma',brand:'FAR',cat:'Elektro / elektronika',loc:'A-10',qty:3,min:3,note:''},
+  {id:39,num:'GEN 002',desc:'Filtrační sada malá',brand:'GEN',cat:'Filtry',loc:'C-4',qty:4,min:2,note:''},
+  {id:40,num:'GEN 003',desc:'Filtrační sada velká',brand:'GEN',cat:'Filtry',loc:'C-4',qty:3,min:2,note:''},
+  {id:41,num:'GEN 10052',desc:'Filtrační komplet 2 fáze',brand:'GEN',cat:'Filtry',loc:'C-4',qty:2,min:1,note:''},
+  {id:42,num:'GEN 10053',desc:'Filtrační komplet 3 fáze',brand:'GEN',cat:'Filtry',loc:'C-4',qty:2,min:1,note:''},
+  {id:43,num:'GEN FCCB KDF',desc:'Filtr KDF',brand:'GEN',cat:'Filtry',loc:'C-5',qty:3,min:2,note:''},
+  {id:44,num:'GEN FCPP1',desc:'Filtr 1 mikron',brand:'GEN',cat:'Filtry',loc:'C-5',qty:5,min:3,note:''},
+  {id:45,num:'GEN FCPS 5 AG',desc:'Filtrační vložka bio AG',brand:'GEN',cat:'Filtry',loc:'C-5',qty:4,min:2,note:''},
+  {id:46,num:'HSD 9001570',desc:'Olej MAXIMA',brand:'HSD',cat:'Spotřební / chemie',loc:'A-11',qty:3,min:2,note:''},
+  {id:47,num:'KAV 0.200.6120',desc:'O kroužek intra KaVo',brand:'KAV',cat:'Těsnění a gumy',loc:'A-1',qty:10,min:5,note:''},
+  {id:48,num:'KAV 0.211.1751',desc:'Koncovka malé savky komplet',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-3',qty:4,min:2,note:''},
+  {id:49,num:'KAV 0.211.1761',desc:'Koncovka velké savky komplet',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-3',qty:3,min:2,note:''},
+  {id:50,num:'KAV 0.238.1051',desc:'Filtr vodní E50 / 1058',brand:'KAV',cat:'Filtry',loc:'C-6',qty:5,min:3,note:''},
+  {id:51,num:'KAV 0.524.1421',desc:'Kleština komplet 10lh,ln',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-12',qty:2,min:2,note:''},
+  {id:52,num:'KAV 0.540.1151',desc:'Mezikus 68',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-12',qty:3,min:2,note:''},
+  {id:53,num:'KAV 0.540.3661',desc:'Náboj hlavičky 68',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-12',qty:2,min:2,note:''},
+  {id:54,num:'KAV 0.553.7201',desc:'Mezikus 25lh / 1',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-13',qty:3,min:2,note:''},
+  {id:55,num:'KAV 0.553.7251',desc:'Mezikus 25lh / 2',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-13',qty:3,min:2,note:''},
+  {id:56,num:'KAV 0.553.7341',desc:'Náboj 25 LH / LHC',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-13',qty:2,min:2,note:''},
+  {id:57,num:'KAV 0.553.7501',desc:'Hlavička 25 LHC',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-13',qty:1,min:2,note:''},
+  {id:58,num:'KAV 0.658.2160',desc:'Filtr sání Smart air 5ks',brand:'KAV',cat:'Filtry',loc:'C-6',qty:2,min:1,note:''},
+  {id:59,num:'KAV 0.763.9661',desc:'Hadice odsávání sada V+M',brand:'KAV',cat:'Hadice a ventily',loc:'B-6',qty:2,min:1,note:''},
+  {id:60,num:'KAV 0.764.5633',desc:'Gumové ukončení malé savky',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-3',qty:5,min:3,note:''},
+  {id:61,num:'KAV 0.764.8541',desc:'TUMBLER FILLER',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-4',qty:2,min:1,note:''},
+  {id:62,num:'KAV 0.773.0051',desc:'Tlačítko stříkačky KaVo',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-5',qty:4,min:2,note:''},
+  {id:63,num:'KAV 0.773.0231',desc:'Tryska stříkačky',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-5',qty:5,min:3,note:''},
+  {id:64,num:'KAV 1.000.2078',desc:'Rotor 655/660',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-14',qty:4,min:2,note:''},
+  {id:65,num:'KAV 1.000.4772',desc:'Rotor 7000',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-14',qty:2,min:2,note:''},
+  {id:66,num:'KAV 1.000.7206',desc:'Dekaseptol dávkovač',brand:'KAV',cat:'Spotřební / chemie',loc:'A-15',qty:3,min:2,note:''},
+  {id:67,num:'KAV 1.001.5845',desc:'Potah plastový ochrana',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-6',qty:4,min:2,note:''},
+  {id:68,num:'KAV 1.002.0271',desc:'Filtr kolínko / turbína',brand:'KAV',cat:'Filtry',loc:'C-7',qty:6,min:3,note:''},
+  {id:69,num:'KAV 1.003.6884',desc:'Rotor 8000',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-14',qty:2,min:2,note:''},
+  {id:70,num:'KAV 1.004.2776',desc:'O kroužky spojky KaVo',brand:'KAV',cat:'Těsnění a gumy',loc:'A-1',qty:12,min:5,note:''},
+  {id:71,num:'KAV 1.007.3995',desc:'Handpiece PiezoLED',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-7',qty:1,min:1,note:''},
+  {id:72,num:'KAV 1.007.4002',desc:'Hadice PiezoLED',brand:'KAV',cat:'Hadice a ventily',loc:'B-7',qty:2,min:1,note:''},
+  {id:73,num:'KAV 1.007.4024',desc:'Špička UOZK č.201',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-8',qty:3,min:3,note:''},
+  {id:74,num:'KAV 1.007.4026',desc:'Špička UOZK č.202',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-8',qty:3,min:3,note:''},
+  {id:75,num:'KAV 1.007.4028',desc:'Špička UOZK č.203',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-8',qty:2,min:3,note:''},
+  {id:76,num:'KAV 1.007.8149',desc:'Hadice MM KaVo 701/702/703',brand:'KAV',cat:'Hadice a ventily',loc:'B-7',qty:2,min:1,note:''},
+  {id:77,num:'KAV 1.007.9313',desc:'Rotor 680',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-14',qty:3,min:2,note:''},
+  {id:78,num:'KAV 1.008.1959',desc:'Pružina biče E50',brand:'KAV',cat:'Těsnění a gumy',loc:'A-1',qty:4,min:3,note:''},
+  {id:79,num:'KAV 1.008.4040',desc:'Náboj E25L',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-15',qty:2,min:2,note:''},
+  {id:80,num:'KAV 1.008.4163',desc:'Rotor 609/619',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-14',qty:2,min:2,note:''},
+  {id:81,num:'KAV 1.010.7974',desc:'KaVo E50/1058 servisní sada 2letá',brand:'KAV',cat:'Servisní sady',loc:'A-9',qty:1,min:3,note:''},
+  {id:82,num:'KAV 1.010.8043',desc:'UNIQUA sada 2 roky',brand:'KAV',cat:'Servisní sady',loc:'A-9',qty:1,min:2,note:''},
+  {id:83,num:'KAV 1.011.5720',desc:'Olej QUATTROcare',brand:'KAV',cat:'Spotřební / chemie',loc:'A-11',qty:4,min:2,note:''},
+  {id:84,num:'KAV 1.013.5155',desc:'Hadice odsávání malá',brand:'KAV',cat:'Hadice a ventily',loc:'B-6',qty:3,min:2,note:''},
+  {id:85,num:'KAV 1.013.5158',desc:'Hadice odsávání velká',brand:'KAV',cat:'Hadice a ventily',loc:'B-6',qty:3,min:2,note:''},
+  {id:86,num:'KAV 1.013.6513',desc:'Potah plastový křesla',brand:'KAV',cat:'Příslušenství / plasty',loc:'D-6',qty:3,min:1,note:''},
+  {id:87,num:'KAV 1.014.5557',desc:'Mezikus E25',brand:'KAV',cat:'Rotační / pohyblivé díly',loc:'A-13',qty:2,min:2,note:''},
+  {id:88,num:'KAV 3.001.0715',desc:'Silentblok Smart Air',brand:'KAV',cat:'Těsnění a gumy',loc:'A-1',qty:4,min:2,note:''},
+  {id:89,num:'KAV 3.001.1277',desc:'Příruba gumová Smart Air',brand:'KAV',cat:'Těsnění a gumy',loc:'A-1',qty:3,min:2,note:''},
+  {id:90,num:'KAV 3.004.7171',desc:'Hadice odsávání KaVo malá komplet',brand:'KAV',cat:'Hadice a ventily',loc:'B-6',qty:2,min:1,note:''},
+  {id:91,num:'KAV 3.004.7180',desc:'Hadice odsávání KaVo velká komplet',brand:'KAV',cat:'Hadice a ventily',loc:'B-6',qty:2,min:1,note:''},
+  {id:92,num:'KAV1.007.4021',desc:'Světlovod UOZK Piezon',brand:'KAV',cat:'Nástroje / instrumenty',loc:'D-7',qty:2,min:2,note:''},
+  {id:93,num:'LUZ 483',desc:'Tryska Luzzani',brand:'LUZ',cat:'Nástroje / instrumenty',loc:'D-5',qty:5,min:3,note:''},
+  {id:94,num:'LUZ SL3GGASG',desc:'Stříkačka MINILIGHT 3F',brand:'LUZ',cat:'Nástroje / instrumenty',loc:'D-9',qty:2,min:1,note:''},
+  {id:95,num:'MEL 01080',desc:'MELAcontrol 250',brand:'MEL',cat:'Spotřební / sterilizace',loc:'E-1',qty:4,min:3,note:''},
+  {id:96,num:'MEL 116 30',desc:'MEtherm 51',brand:'MEL',cat:'Spotřební / sterilizace',loc:'E-1',qty:5,min:3,note:''},
+  {id:97,num:'MEL 201 60',desc:'Filtr BIO',brand:'MEL',cat:'Filtry',loc:'C-8',qty:4,min:2,note:''},
+  {id:98,num:'MEL 517 61',desc:'Repasní sada pro vývěvu 24/30 B stará',brand:'MEL',cat:'Servisní sady',loc:'A-9',qty:1,min:1,note:''},
+  {id:99,num:'MEL 517 71',desc:'Repasní sada pro vývěvu 24/30 B nová',brand:'MEL',cat:'Servisní sady',loc:'A-9',qty:2,min:1,note:''},
+  {id:100,num:'MEL 585 12',desc:'Těsnění dveří Melag',brand:'MEL',cat:'Těsnění a gumy',loc:'A-1',qty:6,min:2,note:''},
+  {id:101,num:'MEL 591 73',desc:'Kavitační ventil pro vývěvu',brand:'MEL',cat:'Hadice a ventily',loc:'B-8',qty:2,min:2,note:''},
+  {id:102,num:'MEL 610 26',desc:'Iontoměnič Meladem',brand:'MEL',cat:'Spotřební / sterilizace',loc:'E-2',qty:3,min:2,note:''},
+  {id:103,num:'MTS 045 262',desc:'Membrána MTS 1',brand:'MTS',cat:'Těsnění a gumy',loc:'A-1',qty:3,min:2,note:''},
+  {id:104,num:'MTS 55020001',desc:'MTS náhradní nádobka MST-1',brand:'MTS',cat:'Příslušenství / plasty',loc:'D-2',qty:2,min:1,note:''},
+  {id:105,num:'MTS 600 100',desc:'Green Clean M2',brand:'MTS',cat:'Spotřební / chemie',loc:'A-11',qty:4,min:2,note:''},
+  {id:106,num:'OMS 210 513',desc:'Hadice tlaková vzduch 6mm',brand:'OMS',cat:'Hadice a ventily',loc:'B-9',qty:3,min:1,note:''},
+  {id:107,num:'OMS 210 514',desc:'Hadice tlaková vodní 8mm',brand:'OMS',cat:'Hadice a ventily',loc:'B-9',qty:3,min:1,note:''},
+  {id:108,num:'OMS 351 220',desc:'Potah plastový křesla ARC',brand:'OMS',cat:'Příslušenství / plasty',loc:'D-6',qty:3,min:1,note:''},
+  {id:109,num:'OMS 360 611',desc:'Pružina biče',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:4,min:3,note:''},
+  {id:110,num:'OMS 420 811',desc:'Filtr bronzový vodní pro regulátor',brand:'OMS',cat:'Filtry',loc:'C-9',qty:3,min:2,note:''},
+  {id:111,num:'OMS 421 010',desc:'Regulační ventil vody',brand:'OMS',cat:'Hadice a ventily',loc:'B-10',qty:2,min:1,note:''},
+  {id:112,num:'OMS 421 216',desc:'Ventil solenoidový OMS',brand:'OMS',cat:'Elektro / elektronika',loc:'A-16',qty:2,min:1,note:''},
+  {id:113,num:'OMS 433 216',desc:'Pohon opěradla',brand:'OMS',cat:'Elektro / elektronika',loc:'A-16',qty:1,min:1,note:''},
+  {id:114,num:'OMS 434 710',desc:'Kabel 10 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:5,min:2,note:''},
+  {id:115,num:'OMS 434 712',desc:'Kabel 12 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:4,min:2,note:''},
+  {id:116,num:'OMS 434 714',desc:'Kabel 14 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:4,min:2,note:''},
+  {id:117,num:'OMS 434 716',desc:'Kabel 16 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:3,min:2,note:''},
+  {id:118,num:'OMS 434 718',desc:'Kabel 18 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:3,min:2,note:''},
+  {id:119,num:'OMS 434 720',desc:'Kabel 20 x 0,25',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:3,min:2,note:''},
+  {id:120,num:'OMS 437 211',desc:'Kolečko STAR',brand:'OMS',cat:'Příslušenství / plasty',loc:'D-10',qty:5,min:3,note:''},
+  {id:121,num:'OMS 463 093',desc:'Držák malé savky',brand:'OMS',cat:'Příslušenství / plasty',loc:'D-3',qty:4,min:2,note:''},
+  {id:122,num:'OMS 463 094',desc:'Držák velké savky',brand:'OMS',cat:'Příslušenství / plasty',loc:'D-3',qty:4,min:2,note:''},
+  {id:123,num:'OMS 463500',desc:'Hříbek do plivátka',brand:'OMS',cat:'Příslušenství / plasty',loc:'D-11',qty:6,min:4,note:''},
+  {id:124,num:'OMS 500 979',desc:'Kondenzátor motoru křesla ARC',brand:'OMS',cat:'Elektro / elektronika',loc:'A-16',qty:2,min:1,note:''},
+  {id:125,num:'OMS 501 001',desc:'Kabelový svazek nožního ovladače',brand:'OMS',cat:'Elektro / elektronika',loc:'A-17',qty:1,min:1,note:''},
+  {id:126,num:'WAS 168024',desc:'Corundum DISC HSS 88',brand:'WAS',cat:'Nástroje / instrumenty',loc:'D-12',qty:3,min:2,note:''},
+  {id:127,num:'WDP UDS N3',desc:'Kit UOZK kompletní N3',brand:'WDP',cat:'Servisní sady',loc:'A-9',qty:2,min:1,note:''},
+  {id:128,num:'WDP UDS N6',desc:'Kit UOZK kompletní N6',brand:'WDP',cat:'Servisní sady',loc:'A-9',qty:2,min:1,note:''},
+  {id:129,num:'WDP 31.16.20.048',desc:'Hlavička – tryska pískovače AO-1',brand:'WDP',cat:'Nástroje / instrumenty',loc:'D-13',qty:2,min:1,note:''},
+  {id:130,num:'OMS 420 539',desc:'O kroužek 5x7x1 – propojovací váleček větší',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:15,min:8,note:''},
+  {id:131,num:'OMS 420 515',desc:'O kroužek 3x1 – propojovací váleček menší',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:15,min:8,note:''},
+  {id:132,num:'OMS 420 513',desc:'O kroužek 6x1 – pod šroubení výstupu',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:10,min:5,note:''},
+  {id:133,num:'OMS 420 502',desc:'O kroužek 2,2x1/6 R00 – do regulace',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:10,min:5,note:''},
+  {id:134,num:'OMS 420 514',desc:'O kroužek 6x1,5 – pod ventil',brand:'OMS',cat:'Těsnění a gumy',loc:'A-1',qty:10,min:5,note:''},
+];
+
+let history = [
+  {date:'2026-05-20T09:14',type:'out',partId:64,qty:1,device:'Křeslo č.2 – KaVo',tech:'Pavel',note:''},
+  {date:'2026-05-19T14:30',type:'in',partId:100,qty:5,device:'',tech:'Martin',note:'Dodávka Melag'},
+  {date:'2026-05-18T11:05',type:'out',partId:17,qty:2,device:'Odsávání ordinace 1',tech:'Pavel',note:''},
+  {date:'2026-05-15T08:50',type:'out',partId:81,qty:1,device:'KaVo Unit č.3',tech:'Martin',note:'Roční servis'},
+  {date:'2026-05-10T13:20',type:'in',partId:47,qty:20,device:'',tech:'Pavel',note:'Objednávka KaVo'},
+];
+
+let activeTab = 'katalog';
+let activeBrand = 'Vše';
+let activeCat = 'Vše';
+let modalMode = null;
+let modalPartId = null;
+
+function showTab(tab) {
+  activeTab = tab;
+  document.getElementById('tab-katalog').classList.toggle('hidden', tab !== 'katalog');
+  document.getElementById('tab-historie').classList.toggle('hidden', tab !== 'historie');
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0&&tab==='katalog')||(i===1&&tab==='historie'));
+  });
+  if (tab === 'historie') renderHistory();
+}
+
+function buildBrandFilters() {
+  const brands = ['Vše', ...Object.keys(BRANDS)];
+  const el = document.getElementById('brand-filters');
+  el.innerHTML = brands.map(b => `<div class="chip${b===activeBrand?' active':''}" onclick="setBrand('${b}')">${b==='Vše'?'Všechny značky':b}</div>`).join('');
+}
+
+function buildCatFilters() {
+  const cats = ['Vše', ...Object.keys(CAT_BADGE)];
+  const el = document.getElementById('cat-filters');
+  el.innerHTML = cats.map(c => `<div class="chip${c===activeCat?' active':''}" onclick="setCat('${c}')">${c==='Vše'?'Všechny kategorie':c}</div>`).join('');
+}
+
+function setBrand(b) { activeBrand = b; buildBrandFilters(); filterTable(); }
+function setCat(c) { activeCat = c; buildCatFilters(); filterTable(); }
+
+function filterTable() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = parts.filter(p => {
+    const matchBrand = activeBrand === 'Vše' || p.brand === activeBrand;
+    const matchCat = activeCat === 'Vše' || p.cat === activeCat;
+    const matchQ = !q || p.num.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+    return matchBrand && matchCat && matchQ;
+  });
+  renderParts(filtered);
+}
+
+function renderParts(list) {
+  const tbody = document.getElementById('parts-body');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Žádné položky</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(p => {
+    const isLow = p.qty <= p.min;
+    const isCritical = p.qty === 0;
+    const badge = CAT_BADGE[p.cat] || 'b-ost';
+    return `<tr>
+      <td>
+        <div class="part-num">${p.num}</div>
+        <div class="part-desc">${p.desc}</div>
+        <div class="part-brand">${BRANDS[p.brand]||p.brand}</div>
+      </td>
+      <td class="col-cat"><span class="badge ${badge}">${p.cat}</span></td>
+      <td class="col-loc" style="font-family:var(--mono);font-size:12px">${p.loc}</td>
+      <td>
+        <div class="qty-ctrl">
+          <div class="qty-btn minus" onclick="openModal('out',${p.id})">−</div>
+          <div class="qty-num${isCritical?' critical':isLow?' low':''}">${p.qty}</div>
+          <div class="qty-btn" onclick="openModal('in',${p.id})">+</div>
+        </div>
+      </td>
+      <td class="col-min"><span class="min-col${isLow?' warn':''}">${p.min}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderHistory(list) {
+  list = list || history;
+  const tbody = document.getElementById('history-body');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">Žádné záznamy</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(h => {
+    const part = parts.find(p => p.id === h.partId) || {};
+    const d = new Date(h.date);
+    const ds = d.toLocaleDateString('cs-CZ') + ' ' + d.toTimeString().slice(0,5);
+    return `<tr>
+      <td style="font-family:var(--mono);font-size:12px">${ds}</td>
+      <td><span class="history-type ${h.type==='in'?'ht-in':'ht-out'}">${h.type==='in'?'příjem':'výdej'}</span></td>
+      <td>
+        <div class="part-num">${part.num||'—'}</div>
+        <div style="font-size:12px">${part.desc||'—'}</div>
+      </td>
+      <td style="font-family:var(--mono);font-size:13px">${h.qty}</td>
+      <td class="col-loc history-device">${h.device||'—'}</td>
+      <td class="col-min history-tech">${h.tech}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterHistory() {
+  const q = document.getElementById('hist-search').value.toLowerCase();
+  const filtered = q ? history.filter(h => {
+    const p = parts.find(pp => pp.id === h.partId)||{};
+    return (p.num||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(h.device||'').toLowerCase().includes(q);
+  }) : history;
+  renderHistory(filtered);
+}
+
+function openModal(mode, partId) {
+  modalMode = mode;
+  modalPartId = partId;
+  const p = parts.find(pp => pp.id === partId);
+  document.getElementById('modal-title').textContent = mode === 'out' ? 'Výdej dílu' : 'Příjem dílu';
+  document.getElementById('modal-partnum').textContent = p.num;
+  document.getElementById('modal-partdesc').textContent = p.desc;
+  document.getElementById('modal-device').value = '';
+  document.getElementById('modal-qty').value = 1;
+  document.getElementById('modal-note').value = '';
+  document.getElementById('device-row').style.display = mode === 'out' ? '' : 'none';
+  document.getElementById('modal-confirm').className = mode === 'out' ? 'btn btn-danger' : 'btn btn-primary';
+  document.getElementById('modal-confirm').textContent = mode === 'out' ? 'Potvrdit výdej' : 'Potvrdit příjem';
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+}
+
+function confirmModal() {
+  const p = parts.find(pp => pp.id === modalPartId);
+  const qty = parseInt(document.getElementById('modal-qty').value)||1;
+  const device = document.getElementById('modal-device').value.trim();
+  const note = document.getElementById('modal-note').value.trim();
+  const tech = document.getElementById('user-select').value;
+  if (modalMode === 'out') {
+    if (!device) { document.getElementById('modal-device').focus(); showToast('Zadejte zařízení / ordinaci'); return; }
+    if (p.qty < qty) { showToast('Nedostatečný počet na skladě'); return; }
+    p.qty -= qty;
+  } else {
+    p.qty += qty;
+  }
+  history.unshift({
+    date: new Date().toISOString().slice(0,16),
+    type: modalMode,
+    partId: modalPartId,
+    qty, device, tech, note
+  });
+  closeModal();
+  filterTable();
+  updateStats();
+  showToast(modalMode === 'out' ? `Vydáno ${qty} ks` : `Přijato ${qty} ks`);
+}
+
+function updateStats() {
+  const low = parts.filter(p => p.qty <= p.min).length;
+  const now = new Date();
+  const mo = now.getMonth(), yr = now.getFullYear();
+  const monthHist = history.filter(h => { const d = new Date(h.date); return d.getMonth()===mo&&d.getFullYear()===yr; });
+  document.getElementById('s-total').textContent = parts.length;
+  document.getElementById('s-low').textContent = low;
+  document.getElementById('s-out').textContent = monthHist.filter(h=>h.type==='out').length;
+  document.getElementById('s-in').textContent = monthHist.filter(h=>h.type==='in').length;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+document.getElementById('api-modal').addEventListener('click', e => { if (e.target === document.getElementById('api-modal')) document.getElementById('api-modal').classList.add('hidden'); });
+
+
+// ── LOGIN ──────────────────────────────────────────────────
+const USERS = { 'Pavel': 'P26*', 'Martin': 'M26*' };
+
+function doLogin() {
+  const name = document.getElementById('login-name').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const match = Object.keys(USERS).find(u => u.toLowerCase() === name.toLowerCase() && USERS[u] === pass);
+  if (match) {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('user-select').value = match;
+    sessionStorage.setItem('dental_user', match);
+    sessionStorage.setItem('dental_auth', '1');
+  } else {
+    document.getElementById('login-error').textContent = 'Špatné jméno nebo heslo';
+    document.getElementById('login-pass').value = '';
+  }
+}
+
+document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-name').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-pass').focus(); });
+
+// Check session
+if (sessionStorage.getItem('dental_auth') === '1') {
+  const savedUser = sessionStorage.getItem('dental_user');
+  document.getElementById('login-screen').classList.add('hidden');
+  if (savedUser) document.getElementById('user-select').value = savedUser;
+}
+
+// Hide user dropdown - login handles it
+document.getElementById('user-select').closest('.nav-user').style.display = 'none';
+
+// ── GOOGLE SHEETS API ──────────────────────────────────────
+let API_URL = localStorage.getItem('dental_api_url') || '';
+
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  dot.className = 'sync-dot ' + (state || '');
+  lbl.textContent = label;
+}
+
+function showApiSetup() {
+  document.getElementById('api-url-input').value = API_URL;
+  document.getElementById('api-modal').classList.remove('hidden');
+}
+
+function saveApiUrl() {
+  const url = document.getElementById('api-url-input').value.trim();
+  if (!url.startsWith('https://script.google.com')) {
+    showToast('Neplatná URL – musí začínat https://script.google.com');
+    return;
+  }
+  API_URL = url;
+  localStorage.setItem('dental_api_url', API_URL);
+  document.getElementById('api-modal').classList.add('hidden');
+  syncAll();
+}
+
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { delete window[cb]; script.remove(); reject(new Error('Timeout')); }, 10000);
+    window[cb] = data => { clearTimeout(timer); delete window[cb]; script.remove(); resolve(data); };
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+    script.onerror = () => { clearTimeout(timer); delete window[cb]; script.remove(); reject(new Error('Script error')); };
+    document.head.appendChild(script);
+  });
+}
+
+async function apiGet(action) {
+  return jsonp(API_URL + '?action=' + action + '&token=DentalServis2026');
+}
+
+async function apiPost(data) {
+  const encoded = encodeURIComponent(JSON.stringify(data));
+  return jsonp(API_URL + '?action=' + data.action + '&token=DentalServis2026&data=' + encoded);
+}
+
+async function syncAll() {
+  if (!API_URL) {
+    document.getElementById('offline-banner').classList.remove('hidden');
+    setSyncStatus('', 'Offline');
+    showApiSetup();
+    return;
+  }
+  setSyncStatus('spin', 'Sync…');
+  try {
+    // Načti sklad
+    const skladData = await apiGet('getSklad');
+    if (skladData.parts && skladData.parts.length > 0) {
+      parts = skladData.parts.map(p => ({
+        id: Number(p.id), num: p.num, desc: p.desc, brand: p.brand,
+        cat: p.cat, loc: p.loc, qty: Number(p.qty), min: Number(p.min), note: p.note || ''
+      }));
+    } else {
+      // Sheet je prázdný – exportuj lokální data do Sheets
+      await exportToSheets();
+    }
+    // Načti historii
+    const histData = await apiGet('getHistorie');
+    if (histData.history) {
+      history = histData.history.map(h => ({
+        date: h.datum, type: h.type,
+        partId: parts.find(p => p.num === h.partNum)?.id || 0,
+        qty: Number(h.qty), device: h.device, tech: h.tech, note: h.note || ''
+      }));
+    }
+    setSyncStatus('ok', 'Synced');
+    document.getElementById('offline-banner').classList.add('hidden');
+    buildBrandFilters(); buildCatFilters(); filterTable(); updateStats();
+    if (activeTab === 'historie') renderHistory();
+    showToast('Synchronizováno ✓');
+  } catch(e) {
+    setSyncStatus('err', 'Chyba');
+    showToast('Chyba sync: ' + e.message);
+  }
+}
+
+async function exportToSheets() {
+  // Pošle všechny lokální díly do Sheets (první spuštění)
+  for (const p of parts) {
+    await apiPost({ action: 'addPart', ...p });
+  }
+}
+
+// Přepiš confirmModal aby volal API
+const _origConfirm = confirmModal;
+async function confirmModal() {
+  const p = parts.find(pp => pp.id === modalPartId);
+  const qty = parseInt(document.getElementById('modal-qty').value)||1;
+  const device = document.getElementById('modal-device').value.trim();
+  const note = document.getElementById('modal-note').value.trim();
+  const tech = document.getElementById('user-select').value;
+
+  if (modalMode === 'out') {
+    if (!device) { document.getElementById('modal-device').focus(); showToast('Zadejte zařízení / ordinaci'); return; }
+    if (p.qty < qty) { showToast('Nedostatečný počet na skladě'); return; }
+    p.qty -= qty;
+  } else {
+    p.qty += qty;
+  }
+
+  // Lokální zápis
+  history.unshift({ date: new Date().toISOString().slice(0,16), type: modalMode, partId: modalPartId, qty, device, tech, note });
+  closeModal();
+  filterTable();
+  updateStats();
+  showToast(modalMode === 'out' ? `Vydáno ${qty} ks` : `Přijato ${qty} ks`);
+
+  // Zápis do Sheets (pokud je API nastaveno)
+  if (API_URL) {
+    try {
+      setSyncStatus('spin', 'Ukládám…');
+      await apiPost({ action: 'pohyb', partNum: p.num, partDesc: p.desc, type: modalMode, qty, device, tech, note });
+      setSyncStatus('ok', 'Synced');
+    } catch(e) {
+      setSyncStatus('err', 'Chyba uložení');
+      showToast('Sheets chyba: ' + e.message);
+    }
+  }
+}
+
+// Při startu zkontroluj API
+if (API_URL) {
+  syncAll();
+} else {
+  document.getElementById('offline-banner').classList.remove('hidden');
+  setSyncStatus('', 'Offline');
+}
+
+buildBrandFilters();
+buildCatFilters();
+filterTable();
+updateStats();
+</script>
+
+
+</body></html>
